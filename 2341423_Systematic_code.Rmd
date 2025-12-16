@@ -1,0 +1,55 @@
+---
+title: "sampling"
+author: "Avanish Harlalka"
+date: "2025-12-16"
+output: html_document
+---
+
+```{r}
+# ---------------------------------------------
+# Sampling 2 – Feeds
+# Population Mean Estimation (Systematic Design)
+# ---------------------------------------------
+
+# Number of subgroups
+K <- 4
+
+# Variance of each subgroup
+variance <- c(10, 15, 20, 12)
+
+# Cost per observation
+cost <- c(5, 8, 6, 7)
+
+# Time per observation
+time <- c(2, 3, 4, 2)
+
+# Allowed sampling bias
+bias <- 1
+
+# Desired variance of estimator
+V <- 5
+
+# Required total sample size
+numerator <- sum(sqrt(variance * cost * time))^2
+n <- numerator / (V - bias^2)
+n_required <- ceiling(n)
+
+# Systematic allocation across subgroups
+allocation <- sqrt(variance * cost * time)
+allocation <- allocation / sum(allocation)
+n_h <- ceiling(n_required * allocation)
+
+# Output results
+n_required
+n_h
+
+# Plot: Experimental Design
+barplot(n_h,
+        names.arg = paste("Group", 1:K),
+        main = "Systematic Sampling Design Across Subgroups",
+        xlab = "Subgroups",
+        ylab = "Sample Size",
+        col = "lightblue")
+
+```
+
